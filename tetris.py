@@ -30,6 +30,12 @@ class Game:
             timer += 1
             if timer % 60 == 0:
                 self.drop(shape)
+
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_UP:
+                        shape.rotate()
+
             self.window.blit(self.background, (0, 0))
             for block in shape.design:
                 block.draw(self.window)
@@ -71,10 +77,29 @@ class Shape:
     def __init__(self, column: int, row: int) -> None:
         self.colour = random.choice(COLOURS)
         self.design = self.get_design(column, row)
+        self.rotation = 1
 
     def get_design(self, column: int, row: int):
         self.design_style = random.choice(SHAPES)
         return [Block(column + b[0], row + b[1], self.colour) for b in self.design_style]
+
+    def rotate(self):
+        if self.design_style == O:
+            return
+        if self.design_style == I:
+            self.rotation *= -1
+
+        pivot = self.design[1]
+        for square in self.design:
+            if square != pivot:
+                square.column -= pivot.column
+                square.row -= pivot.row
+
+                square.column = -self.rotation * square.row,
+                square.row = self.rotation * square.column
+
+                square.column += pivot.column
+                square.row += pivot.row
 
 
 if __name__ == "__main__":
