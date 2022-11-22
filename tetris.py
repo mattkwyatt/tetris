@@ -5,8 +5,13 @@ import random
 GREY = (155, 155, 155)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+COLOURS = [RED, GREEN]
 WIDTH, HEIGHT = 460, 390
 SIZE = 30
+O = [(1, 0), (0, 0), (0, 1), (1, 1)]
+I = [(-1, 0), (0, 0), (1, 0), (2, 0)]
+SHAPES = [O, I]
 
 class Game:
     def __init__(self) -> None:
@@ -19,8 +24,11 @@ class Game:
         random.seed()
 
     def run(self):
+        shape = Shape(4, 1)
         while True:
             self.window.blit(self.background, (0, 0))
+            for block in shape.design:
+                block.draw(self.window)
             pygame.display.update()
             self.clock.tick(60)
 
@@ -50,6 +58,15 @@ class Block:
     def move(self, column: int, row: int):
         self.column = column
         self.row = row
+
+class Shape:
+    def __init__(self, column: int, row: int) -> None:
+        self.colour = random.choice(COLOURS)
+        self.design = self.get_design(column, row)
+
+    def get_design(self, column: int, row: int):
+        self.design_style = random.choice(SHAPES)
+        return [Block(column + b[0], row + b[1], self.colour) for b in self.design_style]
 
 
 if __name__ == "__main__":
