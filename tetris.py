@@ -13,7 +13,10 @@ O = [(1, 0), (0, 0), (0, 1), (1, 1)]
 I = [(-1, 0), (0, 0), (1, 0), (2, 0)]
 T = [(-1, 0), (0, 0), (1, 0), (0, 1)]
 L = [(-1, 0), (0, 0), (1, 0), (1, 1)]
-SHAPES = [O, I, T, L]
+Z = [(-1, 1), (0, 0), (0, 1), (1, 0)]
+J = [(-1, 0), (0, 0), (1, 0), (-1, 1)]
+S = [(-1, 0), (0, 0), (0, 1), (1, 1)]
+SHAPES = [O, I, T, L, Z, J, S]
 
 class Game:
     def __init__(self) -> None:
@@ -88,7 +91,7 @@ class Shape:
     def rotate(self):
         if self.design_style == O:
             return
-        if self.design_style == I:
+        if self.design_style == I or self.design_style == Z or self.design_style == S:
             self.rotation *= -1
 
         pivot = self.design[1]
