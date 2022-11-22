@@ -19,10 +19,8 @@ class Game:
         random.seed()
 
     def run(self):
-        block = Block(0, 0, RED)
         while True:
             self.window.blit(self.background, (0, 0))
-            block.draw(self.window)
             pygame.display.update()
             self.clock.tick(60)
 
