@@ -28,13 +28,15 @@ class Game:
         self.background = self.make_background()
         random.seed()
 
+        self.landed_blocks = [[0 for i in range(10)] for j in range(14)]
+
     def run(self):
         timer = 0
         shape = Shape(4, 1)
         while True:
             timer += 1
             if timer % 60 == 0:
-                self.drop(shape)
+                shape = self.drop(shape)
 
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
@@ -42,8 +44,15 @@ class Game:
                         shape.rotate()
 
             self.window.blit(self.background, (0, 0))
+
             for block in shape.design:
                 block.draw(self.window)
+
+            for row in self.landed_blocks:
+                for cell in row:
+                    if isinstance(cell, Block):
+                        cell.draw(self.window)
+
             pygame.display.update()
             self.clock.tick(60)
 
@@ -55,7 +64,14 @@ class Game:
 
     def drop(self, shape):
         for block in shape.design:
+            if isinstance(self.landed_blocks[block.row + 1][block.column], Block) or block.row == 12:
+                for landed_block in shape.design:
+                    self.landed_blocks[landed_block.row][landed_block.column] = landed_block
+                return Shape(4, 1)
+
             block.row += 1
+        return shape
+
 
 class Block:
     def __init__(self, column: int, row: int, colour: tuple[int, int, int]) -> None:
