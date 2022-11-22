@@ -24,8 +24,12 @@ class Game:
         random.seed()
 
     def run(self):
+        timer = 0
         shape = Shape(4, 1)
         while True:
+            timer += 1
+            if timer % 60 == 0:
+                self.drop(shape)
             self.window.blit(self.background, (0, 0))
             for block in shape.design:
                 block.draw(self.window)
@@ -37,6 +41,10 @@ class Game:
         background.fill(GREY)
         pygame.draw.rect(background, BLACK, (0, 0, 300, HEIGHT))
         return background
+
+    def drop(self, shape):
+        for block in shape.design:
+            block.row += 1
 
 class Block:
     def __init__(self, column: int, row: int, colour: tuple[int, int, int]) -> None:
