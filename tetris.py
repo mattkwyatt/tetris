@@ -49,6 +49,10 @@ class Block:
         draw_pos = (SIZE * self.column, SIZE * self.row)
         window.blit(self.image, draw_pos)
 
+    def draw(self, column: int, row: int):
+        self.column = column
+        self.row = row
+
 
 if __name__ == "__main__":
     game = Game()
