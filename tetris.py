@@ -97,8 +97,7 @@ class Shape:
                 square.column -= pivot.column
                 square.row -= pivot.row
 
-                square.column = -self.rotation * square.row,
-                square.row = self.rotation * square.column
+                square.column, square.row = -self.rotation * square.row, self.rotation * square.column
 
                 square.column += pivot.column
                 square.row += pivot.row
