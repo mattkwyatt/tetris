@@ -44,7 +44,7 @@ class Game:
                     self.quit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP:
-                        shape.rotate()
+                        self.check_rotation(shape)
                     elif event.key == pygame.K_LEFT:
                         self.move(shape, -1)
                     elif event.key == pygame.K_RIGHT:
@@ -88,6 +88,23 @@ class Game:
 
         for block in shape.design:
             block.column += dir
+
+    def check_rotation(self, shape):
+        shape.rotate()
+        for block in shape.design:
+            if block.column > 9 or block.column < 0:
+                self.undo_rotation(shape)
+                return
+            if isinstance(self.landed_blocks[block.row][block.column], Block):
+                self.undo_rotation(shape)
+                return
+
+    def undo_rotation(self, shape):
+        if shape.design_style == I or shape.design_style == Z or shape.design_style == S:
+            shape.rotate()
+        else:
+            for _ in range(3):
+                shape.rotate()
 
     def quit():
         pygame.display.quit()
