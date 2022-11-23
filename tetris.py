@@ -39,6 +39,8 @@ class Game:
                 shape = self.drop(shape)
 
             for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.quit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP:
                         shape.rotate()
@@ -85,6 +87,11 @@ class Game:
 
         for block in shape.design:
             block.column += dir
+
+    def quit():
+        pygame.display.quit()
+        raise SystemExit
+
 
 class Block:
     def __init__(self, column: int, row: int, colour: tuple[int, int, int]) -> None:
