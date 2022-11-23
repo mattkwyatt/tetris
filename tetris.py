@@ -79,7 +79,7 @@ class Game:
             block.row += 1
         return shape
 
-    def move(self, shape, dir):
+    def move(self, shape, dir: int):
         for block in shape.design:
             if block.column + dir == 10 or block.column + dir == -1:
                 return
