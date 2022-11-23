@@ -42,6 +42,10 @@ class Game:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP:
                         shape.rotate()
+                    elif event.key == pygame.K_LEFT:
+                        self.move(shape, -1)
+                    elif event.key == pygame.K_RIGHT:
+                        self.move(shape, 1)
 
             self.window.blit(self.background, (0, 0))
 
@@ -72,6 +76,15 @@ class Game:
             block.row += 1
         return shape
 
+    def move(self, shape, dir):
+        for block in shape.design:
+            if block.column + dir == 10 or block.column + dir == -1:
+                return
+            if isinstance(self.landed_blocks[block.row][block.column], Block):
+                return
+
+        for block in shape.design:
+            block.column += dir
 
 class Block:
     def __init__(self, column: int, row: int, colour: tuple[int, int, int]) -> None:
